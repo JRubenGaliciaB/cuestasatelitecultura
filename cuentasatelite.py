@@ -13,21 +13,28 @@ if not os.path.exists(csv_file):
     st.stop()
 
 try:
-    data = pd.read_csv(csv_file, header=None)
+    # Leer el archivo CSV, considerando que tiene encabezados en la primera fila
+    data = pd.read_csv(csv_file)
 except Exception as e:
     st.error(f"Error al leer el archivo CSV: {e}")
     st.stop()
 
 # Procesamiento de datos
 try:
-    # Extraemos los años (2008-2023)
-    anios = list(range(2008, 2024))
-    
-    # Limpieza y extracción de valores económicos (millones de pesos)
-    valores_millones = data.iloc[1:101, 0].apply(lambda x: float(str(x).split('|')[-1].strip()))
-    
-    # Limpieza y extracción de porcentajes de participación
-    participacion_porcentaje = data.iloc[101:201, 0].apply(lambda x: float(str(x).split('|')[-1].strip()))
+    # Extraer los años desde las columnas (omitimos la primera columna de descriptores)
+    anios = data.columns[1:].astype(int)
+
+    # Filtrar los datos relevantes
+    valores_totales = data[data['Descriptores'].str.contains("Total cultura$", na=False)]
+    participacion_porcentual = data[data['Descriptores'].str.contains("Total cultura\|Participación", na=False)]
+
+    # Obtener los valores numéricos para cada caso
+    if valores_totales.empty or participacion_porcentual.empty:
+        st.error("No se encontraron datos suficientes para las visualizaciones requeridas.")
+        st.stop()
+
+    valores_millones = valores_totales.iloc[0, 1:].astype(float).values
+    participacion_porcentaje = participacion_porcentual.iloc[0, 1:].astype(float).values
 
     # Verificación de tamaños
     if len(valores_millones) != len(anios) or len(participacion_porcentaje) != len(anios):
@@ -59,5 +66,3 @@ ax2.grid(axis='y')
 ax2.legend()
 st.pyplot(fig2)
 
-# Nota sobre los datos
-st.info("Fuente: Datos simulados basados en el archivo proporcionado. Verifica la estructura del CSV antes de usar datos reales.")
