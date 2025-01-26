@@ -7,7 +7,7 @@ st.set_page_config(page_title="Cuesta Satélite de Cultura SHCP", layout="wide")
 st.title("Cuesta Satélite de Cultura SHCP")
 
 # Carga del archivo CSV desde la misma ubicación del programa
-csv_file = "datos.csv"
+csv_file = "conjunto_de_datos_cscm_csc_ciacr_s2023_p.csv"
 df = pd.read_csv(csv_file)
 
 # Asumir que la primera fila tiene encabezados y se cargan correctamente
