@@ -59,7 +59,13 @@ fig.update_layout(
     yaxis_title="Valor",
     legend_title="Descriptor",
     template="plotly_white",
+    legend=dict(
+        orientation="h",
+        yanchor="top",
+        y=-0.3,  # Mover la leyenda debajo de la gráfica
+        xanchor="center",
+        x=0.5
+    )
 )
 
 st.plotly_chart(fig, use_container_width=True)
-
