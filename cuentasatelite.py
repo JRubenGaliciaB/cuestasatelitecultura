@@ -7,7 +7,7 @@ import os
 st.title("Cuesta Satélite de Cultura SHCP")
 
 # Carga de datos
-csv_file = "datos_cultura.csv"
+csv_file = "conjunto_de_datos_cscm_csc_ciacr_s2023_p.csv"
 if not os.path.exists(csv_file):
     st.error(f"El archivo '{csv_file}' no se encuentra en la ubicación del programa.")
     st.stop()
