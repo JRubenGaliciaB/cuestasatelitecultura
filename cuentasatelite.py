@@ -4,7 +4,7 @@ import plotly.express as px
 
 # Configuración inicial del título
 st.set_page_config(page_title="Cuesta Satélite de Cultura SHCP", layout="wide")
-st.title("Cuesta Satélite de Cultura SHCP")
+st.title("Cuenta Satélite de Cultura SHCP")
 
 # Carga del archivo CSV desde la misma ubicación del programa
 csv_file = "conjunto_de_datos_cscm_csc_ciacr_s2023_p.csv"
