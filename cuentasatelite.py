@@ -7,7 +7,7 @@ import os
 st.title("Cuesta Satélite de Cultura SHCP")
 
 # Carga de datos
-csv_file = "conjunto_de_datos_cscm_csc_ciacr_s2023_p.csv"
+csv_file = "datos_cultura.csv"
 if not os.path.exists(csv_file):
     st.error(f"El archivo '{csv_file}' no se encuentra en la ubicación del programa.")
     st.stop()
@@ -20,9 +20,14 @@ except Exception as e:
 
 # Procesamiento de datos
 try:
+    # Extraemos los años (2008-2023)
     anios = list(range(2008, 2024))
-    valores_millones = data.iloc[1:101, 0].astype(float).values
-    participacion_porcentaje = data.iloc[101:201, 0].astype(float).values
+    
+    # Limpieza y extracción de valores económicos (millones de pesos)
+    valores_millones = data.iloc[1:101, 0].apply(lambda x: float(str(x).split('|')[-1].strip()))
+    
+    # Limpieza y extracción de porcentajes de participación
+    participacion_porcentaje = data.iloc[101:201, 0].apply(lambda x: float(str(x).split('|')[-1].strip()))
 
     # Verificación de tamaños
     if len(valores_millones) != len(anios) or len(participacion_porcentaje) != len(anios):
@@ -53,3 +58,6 @@ ax2.set_title("Participación del sector cultura en la economía nacional")
 ax2.grid(axis='y')
 ax2.legend()
 st.pyplot(fig2)
+
+# Nota sobre los datos
+st.info("Fuente: Datos simulados basados en el archivo proporcionado. Verifica la estructura del CSV antes de usar datos reales.")
