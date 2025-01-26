@@ -24,9 +24,12 @@ try:
     # Extraer los años desde las columnas (omitimos la primera columna de descriptores)
     anios = data.columns[1:].astype(int)
 
-    # Filtrar los datos relevantes
-    valores_totales = data[data['Descriptores'].str.contains("Total cultura$", na=False)]
-    participacion_porcentual = data[data['Descriptores'].str.contains("Total cultura\|Participación", na=False)]
+    # Usar descriptores como referencia directa
+    descriptor_valores_totales = "Millones de pesos a precios corrientes|Total cultura"
+    descriptor_participacion = "Millones de pesos a precios corrientes|Total cultura|Participación"
+
+    valores_totales = data[data['Descriptores'] == descriptor_valores_totales]
+    participacion_porcentual = data[data['Descriptores'] == descriptor_participacion]
 
     # Obtener los valores numéricos para cada caso
     if valores_totales.empty or participacion_porcentual.empty:
@@ -65,4 +68,5 @@ ax2.set_title("Participación del sector cultura en la economía nacional")
 ax2.grid(axis='y')
 ax2.legend()
 st.pyplot(fig2)
+
 
